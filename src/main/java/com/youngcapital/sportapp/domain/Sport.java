@@ -12,6 +12,11 @@ public class Sport {
 	private long id;
 	private String naam;
 	
+	public Sport() {};
+	public Sport(String naam) {
+		this.naam = naam;
+	}
+	
 	public String getNaam() {
 		return naam;
 	}
