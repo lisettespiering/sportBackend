@@ -1,5 +1,6 @@
 package com.youngcapital.sportapp.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -21,6 +22,15 @@ public class Locatie {
 	private Sport sport;
 	@OneToMany
 	private Set<Review>reviews;
+	
+	public Locatie() {};
+	public Locatie(String naam, String adres, Sport sport) {
+		this.naam = naam;
+		this.adres = adres;
+		this.sport = sport;
+		this.reviews = new HashSet<Review>();
+	}
+	
 	public String getNaam() {
 		return naam;
 	}

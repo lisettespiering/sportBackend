@@ -1,7 +1,5 @@
 package com.youngcapital.sportapp.endPoint;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,60 +17,45 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.youngcapital.sportapp.domain.Account;
+import com.youngcapital.sportapp.domain.Locatie;
 import com.youngcapital.sportapp.domain.Sport;
 import com.youngcapital.sportapp.service.AccountService;
+import com.youngcapital.sportapp.service.LocatieService;
 import com.youngcapital.sportapp.service.ReviewService;
 import com.youngcapital.sportapp.service.SportService;
 
 @CrossOrigin(origins = "*")
 @RestController 
 @RequestMapping(
-		value = "sport"
+		value = "locatie"
 //		, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE}
 		, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE}
 		)
 
 
-public class SportEndPoint {
+public class LocatieEndPoint {
+	@Autowired
+	ReviewService reviewService;
 	@Autowired
 	SportService sportService;
+	@Autowired
+	LocatieService locatieService;
 	
-	@GetMapping("createSport/{naam}")
-	public ResponseEntity<Sport> createSport(@PathVariable String naam) {
-		Sport sport = new Sport(naam);
-		return new ResponseEntity<Sport>(sportService.save(sport), HttpStatus.OK);
-	}
-	
-	@GetMapping("UpdateSport/{naam}/ {id}")
-	public ResponseEntity<Sport> updateSport(@PathVariable String naam, @PathVariable int id) {
-		Sport sport;
-		Optional<Sport> oSport = sportService.findById(id);
-		if (oSport.isPresent()) {
-			sport = oSport.get();
-		} else {return new ResponseEntity<>(HttpStatus.FORBIDDEN);}
-		
-		sport.setNaam(naam);
-		
-		return new ResponseEntity<Sport>(sportService.save(sport), HttpStatus.OK);
-	}
-	@GetMapping("getSport/{id}")
-	public ResponseEntity<Sport> getSport(@PathVariable long id) {
+	@GetMapping("createLocatie/{naam}/{adres}/{sportstring}")
+	public ResponseEntity<Locatie> createLocatie(@PathVariable String naam, @PathVariable String adres, @PathVariable String sportstring) {
+		Iterable<Sport> iSport = sportService.findAll();
 		Sport sport = null;
-		Optional<Sport> oSport = sportService.findById(id);
-		if (oSport.isPresent()) {
-			sport = oSport.get();
-		} else {return new ResponseEntity<Sport>(HttpStatus.FORBIDDEN);}
-		return new ResponseEntity<Sport>(sportService.save(sport), HttpStatus.OK);
-	}
-	@GetMapping("deleteSport/{id}")
-	public ResponseEntity<Sport> deleteSport(@PathVariable long id) {
-		Optional<Sport> oSport = sportService.findById(id);
-		if (oSport.isPresent()) {
-			sportService.deleteById(id);
-		} else {return new ResponseEntity<>(HttpStatus.FORBIDDEN);}
+		for (Sport nSport : iSport) {
+			if (nSport.getNaam().equalsIgnoreCase(sportstring) ) { 
+				sport = nSport;
+			}
+		}
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		if (sport == null) { return new ResponseEntity<>(HttpStatus.BAD_REQUEST); }
+		
+		Locatie locatie = new Locatie(naam, adres, sport);
+		return new ResponseEntity<Locatie>(locatieService.save(locatie), HttpStatus.OK);
 	}
+	
+	
 }
-
-

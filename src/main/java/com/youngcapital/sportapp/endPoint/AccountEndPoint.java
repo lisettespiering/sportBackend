@@ -89,5 +89,14 @@ public class AccountEndPoint {
 			account = oAccount.get();
 		} else {return new ResponseEntity<Account>(HttpStatus.FORBIDDEN);}
 		return new ResponseEntity<Account>(accountService.save(account), HttpStatus.OK);
-	}	
+	}
+	@GetMapping("DeleteAccount/{id}")
+	public ResponseEntity<Account> DeleteAccount(@PathVariable long id) {
+		Optional<Account> oAccount = accountService.findById(id);
+		if (oAccount.isPresent()) {
+			accountService.deleteById(id);
+		} else {return new ResponseEntity<Account>(HttpStatus.FORBIDDEN);}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }
