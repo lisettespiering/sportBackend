@@ -1,6 +1,7 @@
 package com.youngcapital.sportapp.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -28,6 +29,17 @@ public class Account {
 	@OneToMany
 	private Set<Review>reviews;
 	
+	public Account() {}
+	public Account(String naam, String watchwoord, Sport sport, String woonplaats, String email) {
+		this.naam = naam;
+		this.wachtwoord = watchwoord;
+		this.sport = sport;
+		this.woonplaats = woonplaats;
+		this.email = email;
+		this.aanmaakdatum = 20190101;
+		this.favorietePlekken = new ArrayList<>();
+		this.reviews = new HashSet<Review>();
+	}
 	
 	public Set<Review> getReviews() {
 		return reviews;
