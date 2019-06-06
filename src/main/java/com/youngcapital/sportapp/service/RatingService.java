@@ -1,4 +1,4 @@
-package service;
+package com.youngcapital.sportapp.service;
 
 import java.util.Optional;
 
