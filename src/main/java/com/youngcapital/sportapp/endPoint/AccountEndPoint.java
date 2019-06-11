@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.youngcapital.sportapp.domain.Account;
+import com.youngcapital.sportapp.domain.Locatie;
 import com.youngcapital.sportapp.domain.Sport;
 import com.youngcapital.sportapp.service.AccountService;
 import com.youngcapital.sportapp.service.ReviewService;
@@ -40,47 +41,29 @@ public class AccountEndPoint {
 	@Autowired
 	SportService sportService;
 
-	@GetMapping("createAccount/{naam}/{wachtwoord}/{sportstring}/{woonplaats}/{email}")
-	public ResponseEntity<Account> createAccount(@PathVariable String naam, @PathVariable String wachtwoord, @PathVariable String sportstring, @PathVariable String woonplaats, @PathVariable String email) {
-		Iterable<Sport> iSport = sportService.findAll();
-		Sport sport = null;
-		for (Sport nSport : iSport) {
-			if (nSport.getNaam().equalsIgnoreCase(sportstring) ) { 
-				sport = nSport;
-			}
-		}
-		
-		if (sport == null) { return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST); }
-		Account account = new Account(naam, wachtwoord, sport, woonplaats, email);
+	@PostMapping("createAccount")
+	public ResponseEntity<Account> apiCreate(@RequestBody Account account) { //@RequestBody String naam, @RequestBody String adres, @RequestBody String sportstring) {
+
 		return new ResponseEntity<Account>(accountService.save(account), HttpStatus.OK);
 	}
 	
-	@GetMapping("UpdateAccount/{naam}/{wachtwoord}/{sportstring}/{woonplaats}/{email}/{id}")
-	public ResponseEntity<Account> updateAccount(@PathVariable String naam, @PathVariable String wachtwoord, @PathVariable String sportstring, @PathVariable String woonplaats, @PathVariable String email, @PathVariable int id) {
-		Account account;
+	@PutMapping("updateAccount/{id}")
+	public ResponseEntity<Account> updateLocatie(@PathVariable("id") long id, @RequestBody Account account) {
 		Optional<Account> oAccount = accountService.findById(id);
+		Account oldAccount = null;
 		if (oAccount.isPresent()) {
-			account = oAccount.get();
+			oldAccount = oAccount.get();
 		} else {return new ResponseEntity<Account>(HttpStatus.FORBIDDEN);}
 		
-		Iterable<Sport> iSport = sportService.findAll();
-		Sport sport = null;
-		for (Sport nSport : iSport) {
-			if (nSport.getNaam().equalsIgnoreCase(sportstring) ) { 
-				sport = nSport;
-			}
-		}
-		if (sport == null) { return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST); }
+		oldAccount.setNaam(account.getNaam());
+		oldAccount.setWachtwoord(account.getWachtwoord());
+		oldAccount.setSport(account.getSport());
+		oldAccount.setWoonplaats(account.getWoonplaats());
+		oldAccount.setEmail(account.getEmail());
 		
-		account.setEmail(email);
-		account.setNaam(naam);
-		account.setSport(sport);
-		account.setWachtwoord(wachtwoord);
-		account.setWoonplaats(woonplaats);
-		
-		return new ResponseEntity<Account>(accountService.save(account), HttpStatus.OK);
+		return new ResponseEntity<Account>(accountService.save(oldAccount), HttpStatus.OK);
 	}
-	
+		
 	@GetMapping("getAccount/{id}")
 	public ResponseEntity<Account> getAccount(@PathVariable long id) {
 		Account account = null;
@@ -90,7 +73,8 @@ public class AccountEndPoint {
 		} else {return new ResponseEntity<Account>(HttpStatus.FORBIDDEN);}
 		return new ResponseEntity<Account>(accountService.save(account), HttpStatus.OK);
 	}
-	@GetMapping("DeleteAccount/{id}")
+	
+	@DeleteMapping("DeleteAccount/{id}")
 	public ResponseEntity<Account> DeleteAccount(@PathVariable long id) {
 		Optional<Account> oAccount = accountService.findById(id);
 		if (oAccount.isPresent()) {

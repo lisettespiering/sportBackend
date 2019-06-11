@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.youngcapital.sportapp.domain.Account;
+import com.youngcapital.sportapp.domain.Locatie;
 import com.youngcapital.sportapp.domain.Sport;
 import com.youngcapital.sportapp.service.AccountService;
 import com.youngcapital.sportapp.service.ReviewService;
 import com.youngcapital.sportapp.service.SportService;
 
-@CrossOrigin(origins = "*")
 @RestController 
 @RequestMapping(
 		value = "sport"
@@ -37,26 +37,8 @@ public class SportEndPoint {
 	@Autowired
 	SportService sportService;
 	
-	@GetMapping("createSport/{naam}")
-	public ResponseEntity<Sport> createSport(@PathVariable String naam) {
-		Sport sport = new Sport(naam);
-		return new ResponseEntity<Sport>(sportService.save(sport), HttpStatus.OK);
-	}
-	
-	@GetMapping("UpdateSport/{naam}/ {id}")
-	public ResponseEntity<Sport> updateSport(@PathVariable String naam, @PathVariable int id) {
-		Sport sport;
-		Optional<Sport> oSport = sportService.findById(id);
-		if (oSport.isPresent()) {
-			sport = oSport.get();
-		} else {return new ResponseEntity<>(HttpStatus.FORBIDDEN);}
-		
-		sport.setNaam(naam);
-		
-		return new ResponseEntity<Sport>(sportService.save(sport), HttpStatus.OK);
-	}
 	@GetMapping("getSport/{id}")
-	public ResponseEntity<Sport> getSport(@PathVariable long id) {
+	public ResponseEntity<Sport> getLocatie(@PathVariable long id) {
 		Sport sport = null;
 		Optional<Sport> oSport = sportService.findById(id);
 		if (oSport.isPresent()) {
@@ -64,7 +46,27 @@ public class SportEndPoint {
 		} else {return new ResponseEntity<Sport>(HttpStatus.FORBIDDEN);}
 		return new ResponseEntity<Sport>(sportService.save(sport), HttpStatus.OK);
 	}
-	@GetMapping("deleteSport/{id}")
+
+
+	@PostMapping("createSport")
+	public ResponseEntity<Sport> apiCreate(@RequestBody Sport sport) { //@RequestBody String naam, @RequestBody String adres, @RequestBody String sportstring) {
+
+		return new ResponseEntity<Sport>(sportService.save(sport), HttpStatus.OK);
+	}
+	
+	@PutMapping("updateSport/{id}")
+	public ResponseEntity<Sport> updateLocatie(@PathVariable("id") long id, @RequestBody Sport sport) {
+		Optional<Sport> oSport = sportService.findById(id);
+		Sport oldSport = null;
+		if (oSport.isPresent()) {
+			oldSport = oSport.get();
+		} else {return new ResponseEntity<Sport>(HttpStatus.FORBIDDEN);}
+		
+		sport.setNaam(sport.getNaam());
+		return new ResponseEntity<Sport>(sportService.save(oldSport), HttpStatus.OK);
+	}
+
+	@DeleteMapping("deleteSport/{id}")
 	public ResponseEntity<Sport> deleteSport(@PathVariable long id) {
 		Optional<Sport> oSport = sportService.findById(id);
 		if (oSport.isPresent()) {

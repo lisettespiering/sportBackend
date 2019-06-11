@@ -14,21 +14,21 @@ import javax.persistence.OneToMany;
 public class Locatie {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long ID;
+	private Long id;
 	
 	private String naam;
 	private String adres;
 	@ManyToOne
 	private Sport sport;
-	@OneToMany
-	private Set<Review>reviews;
+//	@OneToMany
+//	private Set<Review>reviews;
 	
 	public Locatie() {};
 	public Locatie(String naam, String adres, Sport sport) {
 		this.naam = naam;
 		this.adres = adres;
 		this.sport = sport;
-		this.reviews = new HashSet<Review>();
+//		this.reviews = new HashSet<Review>();
 	}
 	
 	public String getNaam() {
@@ -49,14 +49,14 @@ public class Locatie {
 	public void setSport(Sport sport) {
 		this.sport = sport;
 	}
-	public Set<Review> getReviews() {
-		return reviews;
-	}
-	public void setReviews(Set<Review> reviews) {
-		this.reviews = reviews;
-	}
-	public Long getID() {
-		return ID;
+//	public Set<Review> getReviews() {
+//		return reviews;
+//	}
+//	public void setReviews(Set<Review> reviews) {
+//		this.reviews = reviews;
+//	}
+	public Long getId() {
+		return id;
 	}
 
 }

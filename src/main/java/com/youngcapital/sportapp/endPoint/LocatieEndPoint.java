@@ -1,5 +1,7 @@
 package com.youngcapital.sportapp.endPoint;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,21 +43,49 @@ public class LocatieEndPoint {
 	@Autowired
 	LocatieService locatieService;
 	
-	@GetMapping("createLocatie/{naam}/{adres}/{sportstring}")
-	public ResponseEntity<Locatie> createLocatie(@PathVariable String naam, @PathVariable String adres, @PathVariable String sportstring) {
-		Iterable<Sport> iSport = sportService.findAll();
-		Sport sport = null;
-		for (Sport nSport : iSport) {
-			if (nSport.getNaam().equalsIgnoreCase(sportstring) ) { 
-				sport = nSport;
-			}
-		}
-		
-		if (sport == null) { return new ResponseEntity<>(HttpStatus.BAD_REQUEST); }
-		
-		Locatie locatie = new Locatie(naam, adres, sport);
+	@PostMapping("createLocatie")
+	public ResponseEntity<Locatie> apiCreate(@RequestBody Locatie locatie) { 
+		//@RequestBody String naam, @RequestBody String adres, @RequestBody String sportstring) {
+//		Sport sport = null;
+//		System.out.println(sport);
 		return new ResponseEntity<Locatie>(locatieService.save(locatie), HttpStatus.OK);
 	}
 	
+	@PutMapping("updateLocatie/{id}")
+	public ResponseEntity<Locatie> updateLocatie(@PathVariable("id") long id, @RequestBody Locatie locatie) {
+		Optional<Locatie> oLocatie = locatieService.findById(id);
+		Locatie oldLocatie = null;
+		if (oLocatie.isPresent()) {
+			oldLocatie = oLocatie.get();
+		} else {return new ResponseEntity<Locatie>(HttpStatus.FORBIDDEN);}
+		
+		oldLocatie.setAdres(locatie.getAdres());
+		oldLocatie.setNaam(locatie.getNaam());
+		oldLocatie.setSport(locatie.getSport());
+		
+		return new ResponseEntity<Locatie>(locatieService.save(oldLocatie), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("deleteLocatie/{id}")
+	public ResponseEntity<Locatie> deleteLocatie(@PathVariable("id") long id) {
+
+		Optional<Locatie> oLocatie = locatieService.findById(id);
+		if (oLocatie.isPresent()) {
+			locatieService.deleteById(id);
+		} else {return new ResponseEntity<Locatie>(HttpStatus.FORBIDDEN);}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("getLocatie/{id}")
+	public ResponseEntity<Locatie> getLocatie(@PathVariable long id) {
+		Locatie locatie = null;
+		Optional<Locatie> oLocatie = locatieService.findById(id);
+		if (oLocatie.isPresent()) {
+			locatie = oLocatie.get();
+		} else {return new ResponseEntity<Locatie>(HttpStatus.FORBIDDEN);}
+		return new ResponseEntity<Locatie>(locatieService.save(locatie), HttpStatus.OK);
+	}
 	
 }
