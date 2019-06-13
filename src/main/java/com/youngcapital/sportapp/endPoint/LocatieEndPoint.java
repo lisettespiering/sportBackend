@@ -77,6 +77,13 @@ public class LocatieEndPoint {
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
+
+	@GetMapping("getLocatie") 	// Retrieve
+	public ResponseEntity<Iterable<Locatie>> apiGetAll() {
+		return new ResponseEntity<Iterable<Locatie>>(
+				locatieService.findAll(), 
+				HttpStatus.OK);
+	}
 	
 	@GetMapping("getLocatie/{id}")
 	public ResponseEntity<Locatie> getLocatie(@PathVariable long id) {
