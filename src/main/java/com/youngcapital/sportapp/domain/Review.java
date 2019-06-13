@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 public class Review {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long ID;
+	private Long id;
 	
 	@ManyToOne
 	private Account account;
@@ -23,6 +23,21 @@ public class Review {
 	private ArrayList<String> bijzonderheden;
 	@ManyToOne
 	private Locatie locatie;
+	
+	Review() {}
+	
+	public Review(Account account, String titel, String inhoud, Rating rating, ArrayList<String> bijzonderheden,
+			Locatie locatie) {
+		super();
+		this.account = account;
+		this.titel = titel;
+		this.inhoud = inhoud;
+		this.rating = rating;
+		this.bijzonderheden = bijzonderheden;
+		this.locatie = locatie;
+	}
+
+
 	public Account getAccount() {
 		return account;
 	}
@@ -59,10 +74,9 @@ public class Review {
 	public void setLocatie(Locatie locatie) {
 		this.locatie = locatie;
 	}
-	public Long getID() {
-		return ID;
+	public Long getId() {
+		return id;
 	}
-	
 	
 	
 

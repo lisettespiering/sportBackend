@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 public class Account {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long ID;
+	private Long id;
 	
 	
 	private String naam;
@@ -26,8 +26,8 @@ public class Account {
 	private String woonplaats;
 	private int aanmaakdatum;
 	private String email;
-	@OneToMany
-	private Set<Review>reviews;
+//	@OneToMany
+//	private Set<Review>reviews;
 	
 	public Account() {}
 	public Account(String naam, String watchwoord, Sport sport, String woonplaats, String email) {
@@ -38,15 +38,15 @@ public class Account {
 		this.email = email;
 		this.aanmaakdatum = 20190101;
 		this.favorietePlekken = new ArrayList<>();
-		this.reviews = new HashSet<Review>();
+//		this.reviews = new HashSet<Review>();
 	}
 	
-	public Set<Review> getReviews() {
-		return reviews;
-	}
-	public void setReviews(Set<Review> reviews) {
-		this.reviews = reviews;
-	}
+//	public Set<Review> getReviews() {
+//		return reviews;
+//	}
+//	public void setReviews(Set<Review> reviews) {
+//		this.reviews = reviews;
+//	}
 	public String getNaam() {
 		return naam;
 	}
@@ -77,9 +77,9 @@ public class Account {
 	public void setWoonplaats(String woonplaats) {
 		this.woonplaats = woonplaats;
 	}
-	public int getAantalReviews() {
-		return reviews.size();
-	}
+//	public int getAantalReviews() {
+//		return reviews.size();
+//	}
 	public int getAanmaakdatum() {
 		return aanmaakdatum;
 	}
@@ -92,8 +92,8 @@ public class Account {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Long getID() {
-		return ID;
+	public Long getId() {
+		return id;
 	}
 	
 }
