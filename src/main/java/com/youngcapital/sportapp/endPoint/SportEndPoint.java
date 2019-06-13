@@ -25,6 +25,7 @@ import com.youngcapital.sportapp.service.AccountService;
 import com.youngcapital.sportapp.service.ReviewService;
 import com.youngcapital.sportapp.service.SportService;
 
+@CrossOrigin(origins = "*")
 @RestController 
 @RequestMapping(
 		value = "sport"
@@ -75,6 +76,14 @@ public class SportEndPoint {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@GetMapping("getSport") 	// Retrieve
+	public ResponseEntity<Iterable<Sport>> apiGetAll() {
+		return new ResponseEntity<Iterable<Sport>>(
+				sportService.findAll(), 
+				HttpStatus.OK);
+	}
+	
 }
 
 
