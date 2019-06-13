@@ -76,6 +76,14 @@ public class SportEndPoint {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@GetMapping("getSport") 	// Retrieve
+	public ResponseEntity<Iterable<Sport>> apiGetAll() {
+		return new ResponseEntity<Iterable<Sport>>(
+				sportService.findAll(), 
+				HttpStatus.OK);
+	}
+	
 }
 
 
