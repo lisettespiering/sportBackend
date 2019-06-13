@@ -25,6 +25,7 @@ import com.youngcapital.sportapp.service.AccountService;
 import com.youngcapital.sportapp.service.ReviewService;
 import com.youngcapital.sportapp.service.SportService;
 
+@CrossOrigin(origins = "*")
 @RestController 
 @RequestMapping(
 		value = "sport"
