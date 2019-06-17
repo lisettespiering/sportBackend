@@ -1,5 +1,6 @@
 package com.youngcapital.sportapp.service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,15 @@ public class ReviewService {
 		}
 		public void deleteById(long id) {
 		ReviewRepository.deleteById(id);
+		}
+		public Iterable<Review> findByUser(long id) {
+			ArrayList<Review> revlist = new ArrayList<>();
+			for (Review r : ReviewRepository.findAll()) {
+				if (r.getAccount().getId() == id) {
+					revlist.add(r);
+				}
+			}
+			return revlist;
 		}
 
 }
