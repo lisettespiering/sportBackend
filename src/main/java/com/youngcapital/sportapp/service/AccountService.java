@@ -49,6 +49,11 @@ public class AccountService {
 		return accountRepository.findById(id);
 	}
 
+
+	public Optional<Account> findByEmail(String email) {
+		return accountRepository.findByEmail(email);
+	}
+	
 	public Iterable<Account> findAll() {
 		return accountRepository.findAll();
 	}
@@ -62,8 +67,8 @@ public class AccountService {
 		Sport duiken = sportRepository.save(new Sport("Duiken"));
 		Sport boulderen = sportRepository.save(new Sport("Boulderen"));
 		
-		Account john  = accountRepository.save(new Account("John", "john", duiken, "Amsterdam", "email"));
-		Account klaas = accountRepository.save(new Account("Klaas", "klaas", boulderen, "Rotterdam", "email"));
+		Account john  = accountRepository.save(new Account("John", "john", duiken, "Amsterdam", "email1"));
+		Account klaas = accountRepository.save(new Account("Klaas", "klaas", boulderen, "Rotterdam", "email2"));
 		accountRepository.save(new Account("Sam", "abdgs", boulderen, "Vlissingen", "samvisser@gmail.com"));
 		accountRepository.save(new Account("Maria", "dgs", duiken, "Harlingen", "mariagonzales@gmail.mx"));
 		
@@ -117,5 +122,6 @@ public class AccountService {
 		reviewRepository.save(new Review(klaas, "KlaasReview", "Klasinhoud", rating2, null,monk));
 		
 	}
+
 
 }
