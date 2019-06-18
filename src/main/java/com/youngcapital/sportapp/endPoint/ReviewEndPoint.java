@@ -67,6 +67,12 @@ public class ReviewEndPoint {
 		return new ResponseEntity<Review>(reviewService.save(review), HttpStatus.OK);
 	}
 	
+	@GetMapping("getReviewsIds/{id}")
+	public ResponseEntity<Iterable<Review>> getReviewIds(@PathVariable long id) {
+		
+		return new ResponseEntity<Iterable<Review>>(reviewService.selectByLocationId(id), HttpStatus.OK);
+	}
+	
 	@PutMapping("updateReview/{id}")
 	public ResponseEntity<Review> updateLocatie(@PathVariable("id") long id, @RequestBody Review review) {
 		Optional<Review> oReview = reviewService.findById(id);
