@@ -30,7 +30,6 @@ import com.youngcapital.sportapp.service.RatingService;
 import com.youngcapital.sportapp.service.ReviewService;
 import com.youngcapital.sportapp.service.SportService;
 
-@CrossOrigin(origins = "*")
 @RestController 
 @RequestMapping(
 		value = "review"
