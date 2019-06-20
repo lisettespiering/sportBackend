@@ -44,6 +44,12 @@ public class AccountEndPoint {
 	@PostMapping("createAccount")
 	public ResponseEntity<Account> apiCreate(@RequestBody Account account) { //@RequestBody String naam, @RequestBody String adres, @RequestBody String sportstring) {
 
+		Optional<Account> oAccount = accountService.findByEmail(account.getEmail());
+		
+		if (oAccount.isPresent() ) {
+			return new ResponseEntity<Account>(HttpStatus.CONFLICT);
+		} 
+		
 		return new ResponseEntity<Account>(accountService.save(account), HttpStatus.OK);
 	}
 	
@@ -62,6 +68,18 @@ public class AccountEndPoint {
 		oldAccount.setEmail(account.getEmail());
 		
 		return new ResponseEntity<Account>(accountService.save(oldAccount), HttpStatus.OK);
+	}
+	
+	@PutMapping("login") 
+	public ResponseEntity<Account> login(@RequestBody Account account) {
+		Optional<Account> oAccount = accountService.findByEmail(account.getEmail());
+		Account oldAccount = null;
+		if (oAccount.isPresent() 
+				&& oAccount.get().getWachtwoord().equals(account.getWachtwoord())) {
+			oldAccount = oAccount.get();
+		} else {return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);}
+		
+		return new ResponseEntity<Account>(oldAccount, HttpStatus.OK);
 	}
 		
 	@GetMapping("getAccount/{id}")
