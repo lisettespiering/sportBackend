@@ -29,6 +29,7 @@ public class ReviewService {
 		public void deleteById(long id) {
 		ReviewRepository.deleteById(id);
 		}
+
 		public Iterable<Review> findByUser(long id) {
 			ArrayList<Review> revlist = new ArrayList<>();
 			for (Review r : ReviewRepository.findAll()) {
@@ -39,4 +40,15 @@ public class ReviewService {
 			return revlist;
 		}
 
+		public Iterable<Review> selectByLocationId(long id) {
+			Iterable<Review> locations = ReviewRepository.findAll();
+			ArrayList<Review> ar = new ArrayList<Review>();
+			for(Review i:locations) {
+				if(i.getLocatie().getId()==id) {
+					ar.add(i);
+				}
+			}
+			Iterable<Review> chosenReviews = ar;
+			return chosenReviews;
+		}
 }

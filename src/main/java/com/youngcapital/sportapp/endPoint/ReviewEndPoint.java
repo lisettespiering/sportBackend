@@ -30,7 +30,6 @@ import com.youngcapital.sportapp.service.RatingService;
 import com.youngcapital.sportapp.service.ReviewService;
 import com.youngcapital.sportapp.service.SportService;
 
-@CrossOrigin(origins = "*")
 @RestController 
 @RequestMapping(
 		value = "review"
@@ -65,6 +64,12 @@ public class ReviewEndPoint {
 		} else {return new ResponseEntity<Review>(HttpStatus.FORBIDDEN);}
 		
 		return new ResponseEntity<Review>(reviewService.save(review), HttpStatus.OK);
+	}
+	
+	@GetMapping("getReviewsIds/{id}")
+	public ResponseEntity<Iterable<Review>> getReviewIds(@PathVariable long id) {
+		
+		return new ResponseEntity<Iterable<Review>>(reviewService.selectByLocationId(id), HttpStatus.OK);
 	}
 	
 	@PutMapping("updateReview/{id}")

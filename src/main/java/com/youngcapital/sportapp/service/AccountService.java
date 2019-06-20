@@ -69,12 +69,12 @@ public class AccountService {
 		
 		Account john  = accountRepository.save(new Account("John", "john", duiken, "Amsterdam", "email1"));
 		Account klaas = accountRepository.save(new Account("Klaas", "klaas", boulderen, "Rotterdam", "email2"));
-		accountRepository.save(new Account("Sam", "abdgs", boulderen, "Vlissingen", "samvisser@gmail.com"));
+		Account sam = accountRepository.save(new Account("Sam", "abdgs", boulderen, "Vlissingen", "samvisser@gmail.com"));
 		accountRepository.save(new Account("Maria", "dgs", duiken, "Harlingen", "mariagonzales@gmail.mx"));
 		
 		Locatie elphinstone = locatieRepository.save(new Locatie("Elphinstone", "Marsa Alam" , duiken));
 		Locatie monk = locatieRepository.save(new Locatie("Monk", "Eindhoven" , duiken));
-		locatieRepository.save(new Locatie("Sterk", "Utrecht" , boulderen));
+		Locatie sterk = locatieRepository.save(new Locatie("Sterk", "Utrecht" , boulderen));
 		locatieRepository.save(new Locatie("Impact", "Almere" , boulderen));
 		locatieRepository.save(new Locatie("Kei", "Amersfoort" , boulderen));
 		locatieRepository.save(new Locatie("Het Lab", "Amersfoort" , boulderen));
@@ -118,10 +118,10 @@ public class AccountService {
 		Rating rating1 = ratingRepository.save(new Rating(1, 2, 3, 4, 5, 6, 7));
 		Rating rating2 = ratingRepository.save(new Rating(2, 2, 2, 2, 2, 2, 2));
 		
-			
-		reviewRepository.save(new Review(john, "Mijn Review", "Mijn inhoud", rating1, null,elphinstone));
+		reviewRepository.save(new Review(john, "Mijn Review", "Elphinstone is leuk!", rating1, null,elphinstone));
 		reviewRepository.save(new Review(john, "Review2", "Meer inhoud", rating1, null,monk));
-		reviewRepository.save(new Review(klaas, "KlaasReview", "Klasinhoud", rating2, null,monk));
+		reviewRepository.save(new Review(klaas, "KlaasReview", "Monk is fantastisch", rating2, null,monk));
+		reviewRepository.save(new Review(sam, "Sams Review", "Fijne sportclub, rustig en goed bereikbaar", rating2, null,sterk));
 		
 	}
 
