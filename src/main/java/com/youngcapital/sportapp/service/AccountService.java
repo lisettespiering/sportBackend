@@ -117,8 +117,10 @@ public class AccountService {
 		
 		Rating rating1 = ratingRepository.save(new Rating(1, 2, 3, 4, 5, 6, 7));
 		Rating rating2 = ratingRepository.save(new Rating(2, 2, 2, 2, 2, 2, 2));
+		
 			
 		reviewRepository.save(new Review(john, "Mijn Review", "Mijn inhoud", rating1, null,elphinstone));
+		reviewRepository.save(new Review(john, "Review2", "Meer inhoud", rating1, null,monk));
 		reviewRepository.save(new Review(klaas, "KlaasReview", "Klasinhoud", rating2, null,monk));
 		
 	}
