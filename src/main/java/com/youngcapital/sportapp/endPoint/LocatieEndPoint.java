@@ -1,5 +1,6 @@
 package com.youngcapital.sportapp.endPoint;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,4 +96,20 @@ public class LocatieEndPoint {
 		return new ResponseEntity<Locatie>(locatieService.save(locatie), HttpStatus.OK);
 	}
 	
+	@GetMapping("searchLocatie/{str}")
+	public ResponseEntity<Iterable<Locatie>> searchLocatie(@PathVariable String str) {
+		ArrayList<Locatie> locs = new ArrayList<>();
+		Iterable<Locatie> iLocs = locatieService.findAll();
+		
+		for (Locatie loc : iLocs) {
+			if ( loc.getAdres().toLowerCase().contains(str.toLowerCase()) || 
+					loc.getNaam().toLowerCase().contains(str.toLowerCase()) ) {
+				locs.add(loc);
+			}
+		}
+		
+		return new ResponseEntity<Iterable<Locatie>>(
+				locs, 
+				HttpStatus.OK);
+	}
 }
