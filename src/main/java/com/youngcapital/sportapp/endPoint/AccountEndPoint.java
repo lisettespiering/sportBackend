@@ -24,6 +24,7 @@ import com.youngcapital.sportapp.domain.Sport;
 import com.youngcapital.sportapp.service.AccountService;
 import com.youngcapital.sportapp.service.ReviewService;
 import com.youngcapital.sportapp.service.SportService;
+import com.youngcapital.sportapp.tools.Hashww;
 
 @CrossOrigin(origins = "*")
 @RestController 
@@ -46,6 +47,8 @@ public class AccountEndPoint {
 
 		Optional<Account> oAccount = accountService.findByEmail(account.getEmail());
 		
+		account.setWachtwoord(Hashww.md5(account.getWachtwoord()));
+		
 		if (oAccount.isPresent() ) {
 			return new ResponseEntity<Account>(HttpStatus.CONFLICT);
 		} 
@@ -55,6 +58,9 @@ public class AccountEndPoint {
 	
 	@PutMapping("updateAccount/{id}")
 	public ResponseEntity<Account> updateLocatie(@PathVariable("id") long id, @RequestBody Account account) {
+		
+		account.setWachtwoord(Hashww.md5(account.getWachtwoord()));
+		
 		Optional<Account> oAccount = accountService.findById(id);
 		Account oldAccount = null;
 		if (oAccount.isPresent()) {
@@ -66,12 +72,15 @@ public class AccountEndPoint {
 		oldAccount.setSport(account.getSport());
 		oldAccount.setWoonplaats(account.getWoonplaats());
 		oldAccount.setEmail(account.getEmail());
-		
+
 		return new ResponseEntity<Account>(accountService.save(oldAccount), HttpStatus.OK);
 	}
 	
 	@PutMapping("login") 
 	public ResponseEntity<Account> login(@RequestBody Account account) {
+		
+		account.setWachtwoord(Hashww.md5(account.getWachtwoord()));
+		
 		Optional<Account> oAccount = accountService.findByEmail(account.getEmail());
 		Account oldAccount = null;
 		if (oAccount.isPresent() 

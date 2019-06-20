@@ -19,6 +19,7 @@ import com.youngcapital.sportapp.repository.LocatieRepository;
 import com.youngcapital.sportapp.repository.RatingRepository;
 import com.youngcapital.sportapp.repository.ReviewRepository;
 import com.youngcapital.sportapp.repository.SportRepository;
+import com.youngcapital.sportapp.tools.Hashww;
 
 @Service
 @Transactional
@@ -67,13 +68,13 @@ public class AccountService {
 		Sport duiken = sportRepository.save(new Sport("Duiken"));
 		Sport boulderen = sportRepository.save(new Sport("Boulderen"));
 		
-		Account john  = accountRepository.save(new Account("John", "john", duiken, "Amsterdam", "email1"));
-		Account klaas = accountRepository.save(new Account("Klaas", "klaas", boulderen, "Rotterdam", "email2"));
-		Account sam = accountRepository.save(new Account("Sam", "abdgs", boulderen, "Vlissingen", "samvisser@gmail.com"));
-		accountRepository.save(new Account("Maria", "dgs", duiken, "Harlingen", "mariagonzales@gmail.mx"));
+		Account john  = accountRepository.save(new Account("John", Hashww.md5("john"), duiken, "Amsterdam", "email1"));
+		Account klaas = accountRepository.save(new Account("Klaas", Hashww.md5("klaas"), boulderen, "Rotterdam", "email2"));
+		Account sam = accountRepository.save(new Account("Sam", Hashww.md5("abdgs"), boulderen, "Vlissingen", "samvisser@gmail.com"));
+		accountRepository.save(new Account("Maria", Hashww.md5("dgs"), duiken, "Harlingen", "mariagonzales@gmail.mx"));
 		
 		Locatie elphinstone = locatieRepository.save(new Locatie("Elphinstone", "Marsa Alam" , duiken));
-		Locatie monk = locatieRepository.save(new Locatie("Monk", "Eindhoven" , duiken));
+		Locatie monk = locatieRepository.save(new Locatie("Monk", "Eindhoven" , boulderen));
 		Locatie sterk = locatieRepository.save(new Locatie("Sterk", "Utrecht" , boulderen));
 		locatieRepository.save(new Locatie("Impact", "Almere" , boulderen));
 		locatieRepository.save(new Locatie("Kei", "Amersfoort" , boulderen));
