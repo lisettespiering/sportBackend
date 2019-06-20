@@ -97,4 +97,17 @@ public class ReviewEndPoint {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@GetMapping("getReview") 	// Retrieve
+	public ResponseEntity<Iterable<Review>> apiGetAll() {
+		return new ResponseEntity<Iterable<Review>>(
+				reviewService.findAll(), 
+				HttpStatus.OK);
+	}
+	@GetMapping("getReviewByUser/{id}") 	// Retrieve
+	public ResponseEntity<Iterable<Review>> getbyUser(@PathVariable long id) {
+		return new ResponseEntity<Iterable<Review>>(
+				reviewService.findByUser(id), 
+				HttpStatus.OK);
+	}
 }

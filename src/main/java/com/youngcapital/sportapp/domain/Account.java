@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ public class Account {
 	private ArrayList<String> favorietePlekken;
 	private String woonplaats;
 	private int aanmaakdatum;
+	@Column(unique=true)
 	private String email;
 //	@OneToMany
 //	private Set<Review>reviews;
