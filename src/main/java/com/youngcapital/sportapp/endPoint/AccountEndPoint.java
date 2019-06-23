@@ -90,6 +90,17 @@ public class AccountEndPoint {
 		
 		return new ResponseEntity<Account>(oldAccount, HttpStatus.OK);
 	}
+	
+	@PutMapping("checkWW")
+	public ResponseEntity<Account> checkWW(@RequestBody Account account) {
+		account.setWachtwoord(Hashww.md5(account.getWachtwoord()));
+		Optional<Account> oAccount = accountService.findByEmail(account.getEmail());
+		if (oAccount.isPresent() 
+				&& oAccount.get().getWachtwoord().equals(account.getWachtwoord())) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);}
+		
+	}
 		
 	@GetMapping("getAccount/{id}")
 	public ResponseEntity<Account> getAccount(@PathVariable long id) {
