@@ -21,9 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.youngcapital.sportapp.domain.Account;
 import com.youngcapital.sportapp.domain.Locatie;
+import com.youngcapital.sportapp.domain.Rating;
+import com.youngcapital.sportapp.domain.Review;
 import com.youngcapital.sportapp.domain.Sport;
 import com.youngcapital.sportapp.service.AccountService;
 import com.youngcapital.sportapp.service.LocatieService;
+import com.youngcapital.sportapp.service.RatingService;
 import com.youngcapital.sportapp.service.ReviewService;
 import com.youngcapital.sportapp.service.SportService;
 
@@ -43,6 +46,8 @@ public class LocatieEndPoint {
 	SportService sportService;
 	@Autowired
 	LocatieService locatieService;
+	@Autowired
+	RatingService ratingService;
 	
 	@PostMapping("createLocatie")
 	public ResponseEntity<Locatie> apiCreate(@RequestBody Locatie locatie) { 
@@ -111,5 +116,24 @@ public class LocatieEndPoint {
 		return new ResponseEntity<Iterable<Locatie>>(
 				locs, 
 				HttpStatus.OK);
+	}
+	
+	@GetMapping("getRating")
+	public ResponseEntity<Locatie> getRating() {
+		Iterable<Locatie> locs = locatieService.findAll();
+		for (Locatie loc : locs) {
+			int total = 0;
+			int count = 0;
+			Iterable<Review> revs = reviewService.selectByLocationId(loc.getId());
+			for (Review rev : revs) {
+				total += rev.getRating().getTotaal();
+				count ++;
+			}
+			if (total != 0) {
+				loc.setRating(((double) total) / ((double) count));
+			} else {loc.setRating(0.0);}
+		
+		}
+		return new ResponseEntity<Locatie>(HttpStatus.OK);
 	}
 }

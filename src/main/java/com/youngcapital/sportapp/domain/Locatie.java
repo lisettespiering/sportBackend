@@ -22,6 +22,8 @@ public class Locatie {
 	private Sport sport;
 //	@OneToMany
 //	private Set<Review>reviews;
+	private double rating = 0.0;
+	
 	
 	public Locatie() {};
 	public Locatie(String naam, String adres, Sport sport) {
@@ -29,6 +31,14 @@ public class Locatie {
 		this.adres = adres;
 		this.sport = sport;
 //		this.reviews = new HashSet<Review>();
+	}
+	
+	public double getRating() {
+		return rating;
+	}
+	
+	public void setRating(double rating) {
+		this.rating = rating;
 	}
 	
 	public String getNaam() {
